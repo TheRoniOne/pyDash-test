@@ -13,7 +13,6 @@ path = os.getcwd()
 csv_files = glob.glob(os.path.join(path, "archive", "*.csv"))
 
 df = readCSVs(csv_files)
-print(df[:3])
 
 app.layout = html.Div([
     html.H1("Crypto tendency exploration with Dash in Python", style={'text-align': 'center'}),
@@ -48,7 +47,8 @@ def update_graph(option_slctd):
     fig = px.line(
         data_frame=temp,
         x="Date",
-        y="Price"
+        y="value",
+        color="var",
     )
 
     return container, fig

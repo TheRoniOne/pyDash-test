@@ -9,7 +9,10 @@ def readCSVs(csv_files):
         df["Crypto_name"] = os.path.split(csv)[1].split(".")[0]
         dfs.append(df)
 
-    return pd.concat(dfs).drop(columns=["Currency_Name"])
+    tmp = pd.concat(dfs).drop(columns=["Currency_Name"]).rename(columns={"Price": "Mean"})
+    tmp = pd.melt(tmp, id_vars=["Date", "Crypto_name"], value_vars=["Mean", "High", "Low"], var_name="var", value_name="value")
+
+    return tmp
 
 def get_cryptos(df):
     cryptos = []
@@ -25,10 +28,10 @@ def main():
 
     df = readCSVs(csv_files)
     #df2 = df.groupby("Crypto_name")
-    #print(df[:3])
+    print(df[:3])
     
     cryptos = get_cryptos(df)
-    print(cryptos)
+    #print(cryptos)
     #print(df["Crypto_name"].unique())
 
 if __name__ == "__main__":
